@@ -273,8 +273,7 @@ static int usage(const char *exe)
                      "\t     wiener:  -w coeff dst src\n"
                      "\t      scale:  -s coeff dst\n"
                      "\tthreshold >:  -r min   dst\n"
-                     "\tthreshold <:  -R max   dst\n"
-                     , exe);
+                     "\tthreshold <:  -R max   dst\n", exe);
     return EXIT_FAILURE;
 }
 

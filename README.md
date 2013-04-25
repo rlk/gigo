@@ -206,6 +206,24 @@ Perform per-pixel complex arithmetic in-place. Source and destination caches mus
 
     Image is thresholded to 1.0 if its absolute value is less than or equal to `max`, 0.0 otherwise. Minimum and maximum thresholding may be used simultaneously to extract a middle range of values.
 
+## Measurement
+
+    measure [-t] [-l size] [-n height] [-m width] [-p samples] op src
+
+Perform a measurement and print the value for each sample.
+
+-   `-s`
+
+    Sum all pixels.
+
+-   `-x`
+
+    Find the minimum value of all pixels.
+
+-   `-X`
+
+    Find the maximum value of all pixels.
+
 ## Pixel transfer
 
     transfer [-t] -x X -y Y -X X -Y Y -W width -H height

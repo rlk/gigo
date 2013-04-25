@@ -5,31 +5,34 @@ CP = cp
 
 VERSION = $(shell svnversion)
 
-ALL = convert fourier filter kernel transfer compute reserve
+ALL = compute convert filter fourier kernel measure reserve transfer
 
 all : $(ALL)
 
 #-------------------------------------------------------------------------------
 
+compute: compute.o img.o err.o
+	$(CC) -o $@ $^ -lm
+
 convert: convert.o img.o err.o
 	$(CC) -o $@ $^ -ltiff -lm
 
-fourier: fourier.o img.o err.o fft.o
+filter: filter.o img.o err.o
 	$(CC) -o $@ $^ -lm
 
-filter: filter.o img.o err.o
+fourier: fourier.o img.o err.o fft.o
 	$(CC) -o $@ $^ -lm
 
 kernel: kernel.o img.o err.o
 	$(CC) -o $@ $^ -lm
 
-transfer: transfer.o img.o err.o
-	$(CC) -o $@ $^ -lm
-
-compute: compute.o img.o err.o
+measure: measure.o img.o err.o
 	$(CC) -o $@ $^ -lm
 
 reserve: reserve.o img.o err.o
+	$(CC) -o $@ $^ -lm
+
+transfer: transfer.o img.o err.o
 	$(CC) -o $@ $^ -lm
 
 #-------------------------------------------------------------------------------
@@ -58,6 +61,7 @@ dist:
 	$(CP) img.c          gigo-$(VERSION)
 	$(CP) img.h          gigo-$(VERSION)
 	$(CP) kernel.c       gigo-$(VERSION)
+	$(CP) measure.c       gigo-$(VERSION)
 	$(CP) reserve.c      gigo-$(VERSION)
 	$(CP) transfer.c     gigo-$(VERSION)
 	$(CP) etc/fft12.png  gigo-$(VERSION)/etc

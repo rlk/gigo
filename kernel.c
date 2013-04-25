@@ -84,7 +84,7 @@ static void calc(img *d, float rr, int op)
         for             (c = 0; c < d->w; c++)
             for         (i = 0; i < d->s; i++)
                 for     (j = 0; j < d->s; j++)
-                    for (k = 0; k < d->p; ++k)
+                    for (k = 0; k < d->p; k++)
                         imgbuf(d, r, c, i, j)[k] /= T;
 }
 
