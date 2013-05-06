@@ -229,7 +229,7 @@ int main(int argc, char **argv)
     bool  ok  = false;
     bool  t   = false;
     int   opt = 0;
-    int   l   = 0;
+    int   l   = 5;
     int   n   = 0;
     int   m   = 0;
     int   p   = 0;

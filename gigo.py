@@ -150,6 +150,20 @@ def mul(dst, src):
                                                 imgname(dst),
                                                 imgname(src)))
 
+# Divide the source image by the destination.
+
+def div(dst, src):
+    run('compute{} {} -D  {} {}'.format(timing, imgargs(dst),
+                                                imgname(dst),
+                                                imgname(src)))
+
+# Wiener deconvolve the source image and the destination.
+
+def wiener(dst, src, val):
+    run('compute{} {} -w {} {} {}'.format(timing, imgargs(dst), val,
+                                                  imgname(dst),
+                                                  imgname(src)))
+
 #-------------------------------------------------------------------------------
 
 # Threshold a range of pixel values.
@@ -279,5 +293,36 @@ def blur(dst, r):
     inverse2d(dst)
 
     imgrm(ker)
+
+#-------------------------------------------------------------------------------
+
+def tif_fourier(src, dst):
+    img = toimg(src)
+    fourier2d(img)
+    totif(img, dst)
+
+def tif_inverse(src, dst):
+    img = toimg(src)
+    inverse2d(img)
+    totif(img, dst)
+
+def tif_multiply(a, b, c):
+    imga = toimg(a)
+    imgb = toimg(b)
+    mul(imga, imgb)
+    totif(imga, c)
+
+def tif_divide(a, b, c):
+    imga = toimg(a)
+    imgb = toimg(b)
+    div(imga, imgb)
+    totif(imga, c)
+
+def tif_wiener(a, b, c, k):
+    imga = toimg(a)
+    imgb = toimg(b)
+    wiener(imga, imgb, k)
+    totif(imga, c)
+
 
 #-------------------------------------------------------------------------------

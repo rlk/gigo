@@ -280,10 +280,10 @@ static int usage(const char *exe)
 int main(int argc, char **argv)
 {
     bool ok = false;
-    bool T  = false;
+    bool t  = false;
     int  op = 0;
     int  c  = 0;
-    int  l  = 0;
+    int  l  = 5;
     int  n  = 0;
     int  m  = 0;
     int  p  = 0;
@@ -317,7 +317,7 @@ int main(int argc, char **argv)
             case 'r': op = o; c = 1; range0 = strtof(optarg, 0); break;
             case 'R': op = o; c = 1; range1 = strtof(optarg, 0); break;
 
-            case 't': T = true; break;
+            case 't': t = true; break;
 
             case '?':
             default : return usage(argv[0]);
@@ -346,7 +346,7 @@ int main(int argc, char **argv)
     }
     gettimeofday(&t1, 0);
 
-    if (T) printtime(&t0, &t1);
+    if (t) printtime(&t0, &t1);
 
     return ok ? EXIT_SUCCESS : EXIT_FAILURE;
 }

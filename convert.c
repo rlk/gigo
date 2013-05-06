@@ -414,7 +414,7 @@ int main(int argc, char **argv)
     bool t  = false;
     bool c  = true;
     bool v  = false;
-    int  l  = 0;
+    int  l  = 5;
     int  n  = 0;
     int  m  = 0;
     int  p  = 0;

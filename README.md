@@ -6,13 +6,42 @@ GIGO is set of command line utilities providing basic image processing functiona
 
 All operations are performed using an on-disk cache file with power-of-two width and height, power-of-two-sized tile layout, and either one or three 32-bit floating point complex samples. The cache file format is raw binary, and image meta-data is provided via command line arguments.
 
+The source is divided into two sections. The shared functions:
+
+- [err.c](err.c)
+- [err.h](err.h)
+- [etc.h](etc.h)
+- [fft.c](fft.c)
+- [fft.h](fft.h)
+- [icc.h](icc.h)
+- [img.c](img.c)
+- [img.h](img.h)
+
+And the command line utilities:
+
+- [compute.c](compute.c)
+- [convert.c](convert.c)
+- [filter.c](filter.c)
+- [fourier.c](fourier.c)
+- [gradient.c](gradient.c)
+- [kernel.c](kernel.c)
+- [measure.c](measure.c)
+- [reserve.c](reserve.c)
+- [transfer.c](transfer.c)
+
+Build using `make`.
+
+- [Makefile](Makefile)
+
+The `convert` utility requires the [TIFF Library](http://www.remotesensing.org/libtiff/) and all utilities require the presence of a `getopt` implementation.
+
 ## Command line arguments
 
 All utilities accept the following arguments. These are optional, as most missing image meta data can be guessed from the cache file size.
 
 -   `-l size`
 
-    Log 2 tile size. This is the one parameter that can never be guessed from file size, and it defaults to zero (thought it should probably default to 5, see below).
+    Log 2 tile size. This is the one parameter that can never be guessed from file size, and it defaults to 5.
 
 -   `-n height`
 
@@ -218,11 +247,40 @@ Perform a measurement and print the value for each sample.
 
 -   `-x`
 
-    Find the minimum value of all pixels.
+    Find the smallest complex magnitude of all pixels.
 
 -   `-X`
 
-    Find the maximum value of all pixels.
+    Find the largest complex magnitude of all pixels.
+
+-   `-0`
+
+    Find the smallest real value of all pixels.
+
+-   `-1`
+
+    Find the largest real value of all pixels.
+
+## Gradient Mapping
+
+    gradient [-t] [-l size] [-n height] [-m width] [-p samples]
+             [-g gradient] [-0 value] [-1 value] dst src
+
+Map the real value of the first channel of the source onto the destination using the given image as gradient map. The tile size and count of the destination must match those of the source. The pixel size of the destination must match the pixel size of the gradient map.
+
+-   `-g gradient`
+
+    Gradient map TIFF image file name.
+
+-   `-0 value`
+
+    Source value to map onto the beginning of the gradient.
+    
+-   `-1 value`
+
+    Source value to map onto the end of the gradient.
+    
+If a perfectly-bounded mapping from minimum to maximum source values is desired, then the proper values for the `-0` and `-1` arguments may be determined using the `-0` and `-1` arguments of `measure`.
 
 ## Pixel transfer
 

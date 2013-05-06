@@ -31,7 +31,7 @@ static void blit(img *d, int x, int y, img *s, int X, int Y, int W, int H)
     for         (i = 0; i < H; i++)
         for     (j = 0; j < W; j++)
             for (k = 0; k < c; k++)
-            imgz(d, y + i, x + j)[k] = imgz(s, Y + i, X + j)[k];
+                imgz(d, y + i, x + j)[k] = imgz(s, Y + i, X + j)[k];
 }
 
 static bool proc(const char *dst,  // destination image file name
@@ -64,7 +64,11 @@ static bool proc(const char *dst,  // destination image file name
             {
                 if ((s = imgopen(src, L, N, M, P)))
                 {
+                    if (H == 0) H = 1 << N;
+                    if (W == 0) W = 1 << M;
+
                     blit(d, x, y, s, X, Y, W, H);
+
                     ok = true;
                     imgclose(d);
                 }
@@ -85,7 +89,22 @@ static int usage(const char *exe)
     fprintf(stderr, "Usage:\t%s [-t] "
                                "[-l size] [-n height] [-m width] [-p samples] "
                                "[-L size] [-N height] [-M width] [-P samples] "
-                               "-x X -y Y -X X -Y Y -W W -H H dst src\n", exe);
+                               "-x x -y y -X X -Y Y -W W -H H dst src\n"
+                               "\tl ... destination log2 tile size\n"
+                               "\tn ... destination log2 image height\n"
+                               "\tm ... destination log2 image width\n"
+                               "\tp ... destination pixel size\n"
+                               "\tx ... destination X (in pixels)\n"
+                               "\ty ... destination Y (in pixels)\n"
+                               "\tL ... source log2 tile size\n"
+                               "\tN ... source log2 image height\n"
+                               "\tM ... source log2 image width\n"
+                               "\tP ... source pixel size\n"
+                               "\tX ... source X      (in pixels)\n"
+                               "\tY ... source Y      (in pixels)\n"
+                               "\tW ... source width  (in pixels)\n"
+                               "\tH ... source height (in pixels)\n"
+                               , exe);
     return EXIT_FAILURE;
 }
 
@@ -93,13 +112,13 @@ int main(int argc, char **argv)
 {
     bool ok = false;
     bool t  = false;
-    int  l  = 0;
+    int  l  = 5;
     int  n  = 0;
     int  m  = 0;
     int  p  = 0;
     int  x  = 0;
     int  y  = 0;
-    int  L  = 0;
+    int  L  = 5;
     int  N  = 0;
     int  M  = 0;
     int  P  = 0;

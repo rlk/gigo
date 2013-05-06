@@ -5,7 +5,7 @@ CP = cp
 
 VERSION = $(shell svnversion)
 
-ALL = compute convert filter fourier kernel measure reserve transfer
+ALL = compute convert filter fourier gradient kernel measure reserve transfer
 
 all : $(ALL)
 
@@ -22,6 +22,9 @@ filter: filter.o img.o err.o
 
 fourier: fourier.o img.o err.o fft.o
 	$(CC) -o $@ $^ -lm
+
+gradient: gradient.o img.o err.o
+	$(CC) -o $@ $^ -ltiff -lm
 
 kernel: kernel.o img.o err.o
 	$(CC) -o $@ $^ -lm
@@ -46,6 +49,7 @@ clean:
 dist:
 	mkdir                gigo-$(VERSION)
 	mkdir                gigo-$(VERSION)/etc
+
 	$(CP) README.md      gigo-$(VERSION)
 	$(CP) Makefile       gigo-$(VERSION)
 	$(CP) compute.c      gigo-$(VERSION)
@@ -70,6 +74,8 @@ dist:
 	$(CP) etc/fft14.png  gigo-$(VERSION)/etc
 	$(CP) etc/fft16.png  gigo-$(VERSION)/etc
 	$(CP) etc/COPYING    gigo-$(VERSION)/etc
+
+	zip -r gigo-$(VERSION) gigo-$(VERSION)
 
 #-------------------------------------------------------------------------------
 
